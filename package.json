@@ -11,8 +11,7 @@
     "react-dom": "^18.2.0"
   },
   "scripts": {
-    "func": "vercel dev --listen 7002",
-    "start": "parcel",
+    "start": "vercel dev",
     "build": "parcel build"
   },
   "devDependencies": {

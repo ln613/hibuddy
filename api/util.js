@@ -60,3 +60,14 @@ export const allowCors = fn => async (req, res) => {
   }
   return await fn(req, res)
 }
+
+export const toCsv = ps => {
+  if (!ps || ps.length === 0) return ''
+  const keys = Object.keys(ps[0])
+  const h = keys.join(',')
+  const lines = ps.map(p => keys.map(k => p[k]).join(','))
+  return `${h}\n${lines.join('\n')}`
+}
+
+export const reportQ =
+  'u_products&p_province,city,name,address,category=products.category1,brand=products.brand,product=products.prodname,price=products.price,size=products.size,count=products.count,avg=products.avg,best=products.best,img=products.imgurl,url=products.url'
