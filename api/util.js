@@ -15,7 +15,19 @@ export const extract = (url, selectors) =>
 
 export const get = url => axios.get(tap(url)).then(r => r.data)
 
-export const post = (url, data) => axios.post(tap(url), data, { headers: { Host: 'hibuddy.ca' } }).then(r => r.data)
+export const post = (url, data) =>
+  axios
+    .post(tap(url), data, {
+      headers: {
+        Origin: HB,
+        'User-Agent':
+          'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
+      },
+    })
+    .then(r => {
+      if (url.includes(HBQ)) console.log(r.request._header)
+      return r.data
+    })
 
 export const DB = (db, doc, type, params) =>
   `${NF}api?type=${type}&doc=${doc}&db=${db}${
