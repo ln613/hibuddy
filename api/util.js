@@ -15,7 +15,7 @@ export const extract = (url, selectors) =>
 
 export const get = url => axios.get(tap(url)).then(r => r.data)
 
-export const post = (url, data) => axios.post(tap(url), data, { headers: { Origin: HB } }).then(r => r.data)
+export const post = (url, data) => axios.post(tap(url), data, { headers: { Host: 'hibuddy.ca' } }).then(r => r.data)
 
 export const DB = (db, doc, type, params) =>
   `${NF}api?type=${type}&doc=${doc}&db=${db}${
