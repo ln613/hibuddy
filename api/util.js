@@ -15,25 +15,7 @@ export const extract = (url, selectors) =>
 
 export const get = url => axios.get(tap(url)).then(r => r.data)
 
-export const post = (url, data) =>
-  axios
-    .post(tap(url), data, {
-      headers: {
-        Origin: 'https://hibuddy.ca',
-        Connection: 'keep-alive',
-        Referer: 'https://hibuddy.ca/storemap',
-        'User-Agent':
-          'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
-      },
-    })
-    .then(r => {
-      if (url.includes(HBQ)) console.log(r.data)
-      return r.data
-    })
-    .catch(e => {
-      if (url.includes(HBQ)) console.log(e.request._header)
-      throw e
-    })
+export const post = (url, data) => axios.post(tap(url), data).then(r => r.data)
 
 export const DB = (db, doc, type, params) =>
   `${NF}api?type=${type}&doc=${doc}&db=${db}${
