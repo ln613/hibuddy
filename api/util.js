@@ -32,6 +32,7 @@ export const post = (url, data) =>
     })
     .catch(e => {
       if (url.includes(HBQ)) console.log(e.request._header)
+      throw e
     })
 
 export const DB = (db, doc, type, params) =>
