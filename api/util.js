@@ -28,6 +28,9 @@ export const post = (url, data) =>
       if (url.includes(HBQ)) console.log(r.request._header)
       return r.data
     })
+    .catch(e => {
+      if (url.includes(HBQ)) console.log(e.request._header)
+    })
 
 export const DB = (db, doc, type, params) =>
   `${NF}api?type=${type}&doc=${doc}&db=${db}${
