@@ -27,7 +27,7 @@ export const post = (url, data) =>
       },
     })
     .then(r => {
-      if (url.includes(HBQ)) console.log(r.request._header)
+      if (url.includes(HBQ)) console.log(r.data)
       return r.data
     })
     .catch(e => {
