@@ -70,4 +70,4 @@ export const toCsv = ps => {
 }
 
 export const reportQ =
-  'u_products&p_province,city,name,address,category=products.category1,brand=products.brand,product=products.prodname,price=products.price,size=products.size,count=products.count,avg=products.avg,best=products.best,img=products.imgurl,url=products.url'
+  'u_products&p_province,city,name,number,address,category=products.category1,brand=products.brand,product=products.prodname,price=products.price,size=products.size,count=products.count,avg=products.avg,best=products.best,img=products.imgurl,url=products.url'
