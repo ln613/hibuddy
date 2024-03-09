@@ -12,7 +12,7 @@ export default allowCors(async (req, res) => {
   let products = await db.stores.flat(`m_${m}&${reportQ}`)
   products = _.sortBy(
     products.map(x => _.omit(x, '_id')),
-    ['province', 'city', 'name', 'address', 'product']
+    ['province', 'city', 'name', 'number', 'address', 'product']
   )
   return res.send(q.csv === '1' ? toCsv(products) : products)
 })
