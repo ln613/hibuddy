@@ -19,7 +19,9 @@ export const post = (url, data) =>
   axios
     .post(tap(url), data, {
       headers: {
-        Origin: HB,
+        Origin: 'https://hibuddy.ca',
+        Connection: 'keep-alive',
+        Referer: 'https://hibuddy.ca/storemap',
         'User-Agent':
           'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
       },
