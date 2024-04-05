@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { saveStore, saveProduct, loadStores, storeReport } from './util'
+import { saveStore, saveProduct, loadStores, storeReport, sleep } from './util'
 import _ from 'lodash'
 
 export const App = () => {
@@ -49,16 +49,41 @@ export const App = () => {
     } else {
       try {
         setIsLoading(true)
-        let result = await saveProduct(c, s.id, 0)
-        const n = Math.ceil(result.total / 10)
-        const sm = (x, r) =>
+        
+        let result
+        while (true) {
+          try {      
+            result = await saveProduct(c, s.id, 0)
+            break
+          } catch (e) {
+            out('Error, keep retrying...')
+            await sleep(1000)
+          }
+        }
+
+        if (!result.noChange) {
+          const n = Math.ceil(result.total / 10)
+          const sm = (x, r) =>
+            out(
+              `Page ${x}/${n}, products ${r.saved}/${r.received} saved for store${sc}: ${s.name} - ${s.fulladdress}`
+            )
+          sm(1, result)
+          for (let i = 1; i < n; i++) {
+            while (true) {
+              try {      
+                result = await saveProduct(c, s.id, i * 10)
+                break
+              } catch (e) {
+                out('Error, keep retrying...')
+                await sleep(1000)
+              }
+            }
+            sm(i + 1, result)
+          }
+        } else {
           out(
-            `Page ${x}/${n}, products ${r.saved}/${r.received} saved for store${sc}: ${s.name} - ${s.fulladdress}`
+            `No updates for store${sc}: ${s.name} - ${s.fulladdress}`
           )
-        sm(1, result)
-        for (let i = 1; i < n; i++) {
-          result = await saveProduct(c, s.id, i * 10)
-          sm(i + 1, result)
         }
         setIsLoading(false)
       } catch (e) {

@@ -26,3 +26,5 @@ const dl = r => {
   document.body.appendChild(a)
   a.click()
 }
+
+export const sleep = s => new Promise(r => setTimeout(r, s))

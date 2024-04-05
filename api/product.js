@@ -38,7 +38,14 @@ export default allowCors(async (req, res) => {
     to: q.city,
   }))
   if (!store.products) store.products = []
-  const oldLen = store.products.length
+  let oldLen = store.products.length
+
+  if (q.page == 0 && oldLen === node.totalCount) return res.send({ noChange: true })
+
+  if (q.page == 0) {
+    store.products = []
+    oldLen = 0
+  }
   store.products = store.products.concat(products) // _.unionBy(products, store.products, 'id')
   await db.stores.save(_.omit(store, '_id'))
   return res.send({
