@@ -29,6 +29,8 @@ export const dbInit = (db, docs) =>
       {
         all: () => get(DB(db, d, 'doc')),
         flat: agg => get(DB(db, d, 'flat', { agg })),
+        search: (query, fields, sort) =>
+          get(DB(db, d, 'search', { query, fields, sort })),
         getById: id => get(DB(db, d, 'getById', { id: id.toString() })),
         // search: params => {
         //   const ps = mapValue(params, v => v.toString())

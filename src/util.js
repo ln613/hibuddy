@@ -12,6 +12,12 @@ export const loadStores = () =>
     .then(r => r.json())
     .catch(e => e)
 
+export const clearStores = city =>
+  fetch(`/api/clearstore?city=${city}`)
+    .then(r => r.text())
+    .then(r => `${r} stores cleared for ${city}`)
+    .catch(e => e)
+
 export const storeReport = (type, id, csv) =>
   fetch(`/api/storereport?${type}=${id}&csv=${csv}`)
     .then(r => (csv ? r.blob().then(dl) : r.json()))

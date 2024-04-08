@@ -1,5 +1,12 @@
 import { useState, useEffect } from 'react'
-import { saveStore, saveProduct, loadStores, storeReport, sleep } from './util'
+import {
+  saveStore,
+  saveProduct,
+  loadStores,
+  clearStores,
+  storeReport,
+  sleep,
+} from './util'
 import _ from 'lodash'
 
 export const App = () => {
@@ -49,10 +56,10 @@ export const App = () => {
     } else {
       try {
         setIsLoading(true)
-        
+
         let result
         while (true) {
-          try {      
+          try {
             result = await saveProduct(c, s.id, 0)
             break
           } catch (e) {
@@ -70,7 +77,7 @@ export const App = () => {
           sm(1, result)
           for (let i = 1; i < n; i++) {
             while (true) {
-              try {      
+              try {
                 result = await saveProduct(c, s.id, i * 10)
                 break
               } catch (e) {
@@ -81,9 +88,7 @@ export const App = () => {
             sm(i + 1, result)
           }
         } else {
-          out(
-            `No updates for store${sc}: ${s.name} - ${s.fulladdress}`
-          )
+          out(`No updates for store${sc}: ${s.name} - ${s.fulladdress}`)
         }
         setIsLoading(false)
       } catch (e) {
@@ -95,6 +100,18 @@ export const App = () => {
   const saveProductsForAllStores = async c => {
     for (let i = 0; i < stores.length; i++) {
       await saveProducts(c, stores[i], `(${i + 1}/${stores.length})`)
+    }
+  }
+
+  const clearStore = async c => {
+    if (
+      confirm(
+        `Are you sure you want to delete all products in all stores in ${c}?`
+      )
+    ) {
+      setIsLoading(true)
+      await clearStores(c).then(out)
+      setIsLoading(false)
     }
   }
 
@@ -193,18 +210,25 @@ export const App = () => {
         </div>
         <div>
           <button
-            disabled={isLoading}
+            disabled={isLoading || !selectedStore}
             onClick={() => saveProducts(selectedCity, selectedStore)}
             style={{ backgroundColor: 'orange' }}
           >
             Save Products for Store
           </button>
           <button
-            disabled={isLoading}
+            disabled={isLoading || !selectedCity}
             onClick={() => saveProductsForAllStores(selectedCity)}
             style={{ backgroundColor: 'orange' }}
           >
             Save Products for All Stores in City
+          </button>
+          <button
+            disabled={isLoading || !selectedCity}
+            onClick={() => clearStore(selectedCity)}
+            style={{ backgroundColor: 'red' }}
+          >
+            Delete Products for All Stores in City
           </button>
         </div>
         <div>
