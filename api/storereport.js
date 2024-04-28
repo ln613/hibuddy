@@ -21,7 +21,7 @@ export default allowCors(async (req, res) => {
     const pages = Math.ceil(count / pageSize)
     for (let i = 0; i < pages; i++) {
       const r = await db.stores.flat(`${agg}&k_${i * pageSize}&l_${pageSize}`)
-      products.push(r)
+      products = products.concat(r)
       console.log(`Page ${i + 1} / ${pages} done`)
     }
   }
