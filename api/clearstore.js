@@ -5,7 +5,7 @@ import _ from 'lodash'
 export default allowCors(async (req, res) => {
   const city = req.query.city
   console.log(city)
-  const stores = await db.stores.search({ to: city })
+  const stores = await db.stores.flat('m_to=city') // db.stores.search({ to: city })
   console.log(stores.length)
 
   if (stores.length > 0) {
