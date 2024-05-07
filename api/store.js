@@ -11,15 +11,16 @@ const q = c => ({
 export default allowCors(async (req, res) => {
   const city = req.query.city
   const ids = await db.stores.flat(`p_storeid`)
-  const c = await get(`${HB}api/v1/address?query=Downtown%20${city}`).then(
-    r => r?.features?.[0].geometry?.coordinates
-  ).catch(_ =>
-    get(`${HB}api/v1/address?query=${city}`).then(
-      r => r?.features?.[0].geometry?.coordinates
+  const c = await get(`${HB}api/v1/address?query=Downtown%20${city}`)
+    .then(r => r?.features?.[0].geometry?.coordinates)
+    .catch(_ =>
+      get(`${HB}api/v1/address?query=${city}`).then(
+        r => r?.features?.[0].geometry?.coordinates
+      )
     )
-  ).catch(_ => null)
+    .catch(_ => null)
 
-  if (!c) return res.send(0)
+  if (!c) return res.send({ count: 0 })
 
   let stores = await post(HBQ, q(c)).then(r => r?.data?.stores?.nodes)
   stores = _.differenceBy(stores, ids, 'storeid')
@@ -30,5 +31,5 @@ export default allowCors(async (req, res) => {
     })
     await db.stores.save(stores)
   }
-  return res.send(stores.length)
+  return res.send({ count: stores.length })
 })

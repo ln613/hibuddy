@@ -1,7 +1,7 @@
 export const saveStore = city =>
   fetch(`/api/store?city=${city}`)
-    .then(r => r.text())
-    .then(r => `${r} stores saved for ${city}`)
+    .then(r => r.json())
+    .then(r => `${r.count} stores saved for ${city}`)
     .catch(e => e)
 
 export const saveProduct = (city, id, page) =>

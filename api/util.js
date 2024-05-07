@@ -72,7 +72,7 @@ export const flat = async (doc, agg) => {
 }
 
 export const replace = async (doc, obj) => {
-  const list = makeArray(obj)
+  const list = Array.isArray(obj) ? obj : [obj]
 
   if (list.some(o => !o.id)) {
     const id1 = await maxId(doc)

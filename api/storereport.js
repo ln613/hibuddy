@@ -12,7 +12,9 @@ export default allowCors(async (req, res) => {
     ? `to=${q.city}`
     : `province=${q.province}`
   const agg = `m_${m}&${reportQ}`
-  const count = await db.stores.flat(`${agg}&c`).then(r => r[0].c)
+  const count = await db.stores
+    .flat(`${agg}&c`)
+    .then(r => (r && r[0] ? r[0].c : 0))
 
   let products = []
   if (count <= pageSize) {
