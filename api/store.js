@@ -10,6 +10,8 @@ const q = c => ({
 // save stores for a given city
 export default allowCors(async (req, res) => {
   const city = req.query.city
+  if (!city) return res.send({ count: 0 })
+
   const ids = await db.stores.flat(`p_storeid`)
   const c = await get(`${HB}api/v1/address?query=Downtown%20${city}`)
     .then(r => r?.features?.[0].geometry?.coordinates)
